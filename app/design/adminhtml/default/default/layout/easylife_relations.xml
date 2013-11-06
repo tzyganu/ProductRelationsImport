@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_relations_import_edit>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addCss"><css>lib/prototype/windows/themes/magento.css</css></action>
+        </reference>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>catalog/easylife_relations</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="easylife_relations/adminhtml_import_edit" name="edit"></block>
+        </reference>
+    </adminhtml_relations_import_edit>
+</layout>
