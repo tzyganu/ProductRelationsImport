@@ -60,4 +60,13 @@ class Easylife_Relations_Model_Import_Type extends Easylife_Relations_Model_Impo
         }
         return $options;
     }
+    /**
+     * getter for event name
+     * @access public
+     * @return mixed
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    public function getEventName(){
+        return false;
+    }
 }

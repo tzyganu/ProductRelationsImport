@@ -31,11 +31,6 @@ class Easylife_Relations_Model_Import_Action extends Easylife_Relations_Model_Im
      */
     const ACTION_MERGE      = 2;
     /**
-     * cache options
-     * @var null|array
-     */
-    protected $_options = null;
-    /**
      * get options as array: var[] = array('value'=>value, 'label'=>label)
      * @access public
      * @param bool $withEmpty
@@ -53,11 +48,21 @@ class Easylife_Relations_Model_Import_Action extends Easylife_Relations_Model_Im
                 'label' => Mage::helper('easylife_relations')->__('Merge with existing relations'),
                 'value' => self::ACTION_MERGE,
             );
+            $this->_dispatchEvent();
         }
         $options = $this->_options;
         if ($withEmpty){
             array_unshift($options, array('label'=>'', 'value'=>''));
         }
         return $options;
+    }
+    /**
+     * getter for event name
+     * @access public
+     * @return mixed
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    public function getEventName(){
+        return 'easylife_relations_get_options_action';
     }
 }

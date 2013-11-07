@@ -41,6 +41,7 @@ class Easylife_Relations_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml
             'name'      =>'type',
             'values'    => $values,
             'onchange'  => 'refreshOptions()',
+            'required'  => true,
             'after_element_html' => Mage::helper('easylife_relations/adminhtml')->getTooltipHtml(
                 Mage::helper('easylife_relations')->__('Import type'),
                 Mage::helper('easylife_relations')->__('You can upload a file or manually input the data')
@@ -51,6 +52,7 @@ class Easylife_Relations_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml
             'label'     =>Mage::helper('easylife_relations')->__('Relation type'),
             'name'      =>'relation',
             'values'    => $relations,
+            'required'  => true,
             'after_element_html' => Mage::helper('easylife_relations/adminhtml')->getTooltipHtml(
                 Mage::helper('easylife_relations')->__('Relation type'),
                 Mage::helper('easylife_relations')->__('Select what you want to import.').'<br />'.
@@ -62,6 +64,7 @@ class Easylife_Relations_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml
             'label'     =>Mage::helper('easylife_relations')->__('Action'),
             'name'      =>'action',
             'values'    => $actions,
+            'required'  => true,
             'after_element_html' => Mage::helper('easylife_relations/adminhtml')->getTooltipHtml(
                 Mage::helper('easylife_relations')->__('Action'),
                 Mage::helper('easylife_relations')->__('Select the import behaviour. Merge current existing relations or replace them with the new ones'))
@@ -71,6 +74,7 @@ class Easylife_Relations_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml
             'label'     =>Mage::helper('easylife_relations')->__('Work with'),
             'name'      =>'identifier',
             'values'    => $identifiers,
+            'required'  => true,
             'after_element_html' => Mage::helper('easylife_relations/adminhtml')->getTooltipHtml(
                 Mage::helper('easylife_relations')->__('Work with'),
                 Mage::helper('easylife_relations')->__('Specify if the values you enter are product ids or product SKUs'))
@@ -80,6 +84,7 @@ class Easylife_Relations_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml
             'label'     =>Mage::helper('easylife_relations')->__('Import rules'),
             'name'      =>'parse',
             'values'    => $parseTypes,
+            'required'  => true,
             'after_element_html' => Mage::helper('easylife_relations/adminhtml')->getTooltipHtml(
                 Mage::helper('easylife_relations')->__('Import rules'),
                 Mage::helper('easylife_relations')->__('You can define from here how the import should work.<ul><li><strong>Relate all on one line to first product in line.</strong> - first product in the row will be considered as the main product. All others will be added as relations to it.</li><li><strong>Relate all products on one line</strong> - all products on one line will be added as relations to all other products on the same line.</li><li><strong>Relate all products among themselves</strong> - all products will be added as relations to all products regardless of the line they are in.</li></ul>'))
@@ -88,14 +93,17 @@ class Easylife_Relations_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml
         $fieldset->addField('related', 'textarea', array(
             'label'     =>Mage::helper('easylife_relations')->__('Related products identifiers'),
             'name'      =>'related',
+            'required'  => true,
             'after_element_html' => Mage::helper('easylife_relations/adminhtml')->getTooltipHtml(
                 Mage::helper('easylife_relations')->__('Related products identifiers'),
                 Mage::helper('easylife_relations')->__('Specify the product ids or SKUs to be imported. Use comma as a product separator and semicolon as a separator between product identifier and position. Example: 345,33:5,29. If you select import rule "Relate all on one line to first product in line" then products with identifiers 33 and 29 will be added as related to product 345. Product 33 will have the position 5 and 29 will have the default position 0 because it doesn\'t have one specified')),
             'note' => Mage::helper('easylife_relations')->__('')
         ));
+
         $fieldset->addField('import_file', 'file', array(
             'label'     =>Mage::helper('easylife_relations')->__('File to import'),
             'name'      =>'import_file',
+            'required'  => true,
             'after_element_html' => Mage::helper('easylife_relations/adminhtml')->getTooltipHtml(
                 Mage::helper('easylife_relations')->__('File to import'),
                 Mage::helper('easylife_relations')->__('Same rules apply as for the "Related products identifiers". The difference is that the values are read from a csv file.'))

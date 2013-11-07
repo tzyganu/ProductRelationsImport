@@ -21,7 +21,7 @@
  * @package     Easylife_Relations
  * @author      Marius Strajeru <marius.strajeru@gmail.com>
  */
-class Easylife_Relations_Model_Handler{
+class Easylife_Relations_Model_Handler {
     /**
      * separator for product identifiers
      */
@@ -30,6 +30,11 @@ class Easylife_Relations_Model_Handler{
      * separator for position
      */
     const POSITION_SEPARATOR = ':';
+    /**
+     * log data
+     * @var array
+     */
+    protected $_log          = array();
 
     /**
      * import relations
@@ -120,8 +125,10 @@ class Easylife_Relations_Model_Handler{
                 $toImport = $data->getToImport();
             break;
         }
-        $this->_importRelated($toImport, $relation, $action);
-        return $this;
+        if (isset($toImport)){
+            $this->_importRelated($toImport, $relation, $action);
+        }
+        return $this->getLog();
     }
 
     /**
@@ -166,13 +173,31 @@ class Easylife_Relations_Model_Handler{
                     $this->_productIds[$type][$identifier] = $identifier;
                 }
                 else{
+                    $this->addLog(
+                        'warning',
+                        Mage::helper('easylife_relations')->__('Product with ID %s does not exist.', $identifier)
+                    );
                     $this->_productIds[$type][$identifier] = false;
                 }
             }
             elseif($type == Easylife_Relations_Model_Import_Identifier::SKU){
-                $this->_productIds[$type][$identifier] = Mage::getSingleton('catalog/product')->getIdBySku($identifier);
+                $id = Mage::getSingleton('catalog/product')->getIdBySku($identifier);
+                if ($id){
+                    $this->_productIds[$type][$identifier] = $id;
+                }
+                else{
+                    $this->addLog(
+                        'warning',
+                        Mage::helper('easylife_relations')->__('Product with SKU %s does not exist.', $identifier)
+                    );
+                    $this->_productIds[$type][$identifier] = false;
+                }
             }
             else {
+                $this->addLog(
+                    'warning',
+                    Mage::helper('easylife_relations')->__('Product with SKU %s does not exist.', $identifier)
+                );
                 $this->_productIds[$type][$identifier] = false;
             }
         }
@@ -216,6 +241,32 @@ class Easylife_Relations_Model_Handler{
                 $relation
             );
         }
+        return $this;
+    }
+
+    /**
+     * log getter
+     * @access public
+     * @return array
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    public function getLog(){
+        return $this->_log;
+    }
+
+    /**
+     * add entry to log
+     * @access public
+     * @param $type
+     * @param $message
+     * @return Easylife_Relations_Model_Handler
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    public function addLog($type, $message){
+        if (!isset($this->_log[$type])){
+            $this->_log[$type] = array();
+        }
+        $this->_log[$type][] = $message;
         return $this;
     }
 }

@@ -42,14 +42,26 @@ class Easylife_Relations_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Bloc
                 var actionType = $('action').value;
                 if (importType == ".Easylife_Relations_Model_Import_Type::IMPORT_TYPE_UPLOAD."){
                     $('import_file').up(1).show();
+                    if (!$('import_file').hasClassName('required-entry')){
+                        $('import_file').addClassName('required-entry');
+                    }
+
                     $('related').up(1).hide();
+                    $('related').removeClassName('required-entry');
                 }
                 else{
+                    $('import_file').removeClassName('required-entry');
                     $('import_file').up(1).hide();
+
                     $('related').up(1).show();
+                    if (!$('related').hasClassName('required-entry')){
+                        $('related').addClassName('required-entry');
+                    }
                 }
             }
-            refreshOptions();
+            document.observe(\"dom:loaded\", function() {
+                refreshOptions();
+            });
         ";
     }
     /**

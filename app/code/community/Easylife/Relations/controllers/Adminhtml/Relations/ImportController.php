@@ -78,14 +78,24 @@ class Easylife_Relations_Adminhtml_Relations_ImportController extends Mage_Admin
             else {
                 throw new Easylife_Relations_Exception(Mage::helper('easylife_relations')->__('Import type is not valid'));
             }
-            Mage::getSingleton('easylife_relations/handler')->importRelations($rawData, $relation, $action, $parse, $identifier);
+            $log = Mage::getSingleton('easylife_relations/handler')->importRelations($rawData, $relation, $action, $parse, $identifier);
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('easylife_relations')->__('Import successful'));
+            $session = Mage::getSingleton('adminhtml/session');
+            foreach ($log as $type=>$messages){
+                $method = 'add'.ucfirst($type);
+                if (method_exists($session, $method)){
+                    foreach ($messages as $message){
+                        $session->$method($message);
+                    }
+                }
+            }
         }
         catch (Mage_Core_Exception $e){
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             Mage::getSingleton('adminhtml/session')->setRelationImportData($this->getRequest()->getPost());
         }
         catch (Exception $e){
+            Mage::logException($e);
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('easylife_relations')->__('An error occurred'));
             Mage::getSingleton('adminhtml/session')->setRelationImportData($this->getRequest()->getPost());
         }

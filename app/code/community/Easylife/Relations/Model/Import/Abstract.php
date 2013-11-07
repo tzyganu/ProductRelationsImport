@@ -23,6 +23,16 @@
  */
 abstract class Easylife_Relations_Model_Import_Abstract {
     /**
+     * cache options
+     * @var null|array
+     */
+    protected $_options = null;
+    /**
+     * event name dispatched when getting the options
+     * @var string
+     */
+    protected $_eventName = 'easylife_relations_get_action_options';
+    /**
      * get options as array: var[] = array('value'=>value, 'label'=>label)
      * @access public
      * @param bool $withEmpty
@@ -30,6 +40,13 @@ abstract class Easylife_Relations_Model_Import_Abstract {
      * @author Marius Strajeru <marius.strajeru@gmail.com>
      */
     public abstract function getAllOptions($withEmpty);
+    /**
+     * getter for event name
+     * @access public
+     * @return mixed
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    public abstract function getEventName();
 
     /**
      * get options as array: var[key] = value
@@ -44,5 +61,21 @@ abstract class Easylife_Relations_Model_Import_Abstract {
             $options[$option['value']] = $option['label'];
         }
         return $options;
+    }
+
+    /**
+     * dispatch event for altering the options
+     * @access protected
+     * @return $this
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    protected function _dispatchEvent(){
+        $eventName = $this->getEventName();
+        if ($eventName){
+            $obj = new Varien_Object(array('options'=>$this->_options));
+            Mage::dispatchEvent($this->getEventName(), array('data_object'=>$obj));
+            $this->_options = $obj->getOptions();
+        }
+        return $this;
     }
 }

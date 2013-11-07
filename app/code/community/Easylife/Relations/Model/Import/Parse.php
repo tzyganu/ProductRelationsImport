@@ -61,11 +61,21 @@ class Easylife_Relations_Model_Import_Parse extends Easylife_Relations_Model_Imp
                 'label' => Mage::helper('easylife_relations')->__('Relate all products among themselves'),
                 'value' => self::ALL,
             );
+            $this->_dispatchEvent();
         }
         $options = $this->_options;
         if ($withEmpty){
             array_unshift($options, array('label'=>'', 'value'=>''));
         }
         return $options;
+    }
+    /**
+     * getter for event name
+     * @access public
+     * @return mixed
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    public function getEventName(){
+        return 'easylife_relations_get_options_parse';
     }
 }

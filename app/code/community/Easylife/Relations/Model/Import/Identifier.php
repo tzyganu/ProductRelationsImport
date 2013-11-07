@@ -53,11 +53,21 @@ class Easylife_Relations_Model_Import_Identifier extends Easylife_Relations_Mode
                 'label' => Mage::helper('easylife_relations')->__('Product SKU'),
                 'value' => self::SKU,
             );
+            $this->_dispatchEvent();
         }
         $options = $this->_options;
         if ($withEmpty){
             array_unshift($options, array('label'=>'', 'value'=>''));
         }
         return $options;
+    }
+    /**
+     * getter for event name
+     * @access public
+     * @return mixed
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    public function getEventName(){
+        return 'easylife_relations_get_options_identifier';
     }
 }

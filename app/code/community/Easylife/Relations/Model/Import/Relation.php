@@ -49,11 +49,21 @@ class Easylife_Relations_Model_Import_Relation extends Easylife_Relations_Model_
                 'label' => Mage::helper('easylife_relations')->__('Cross sells'),
                 'value' => Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
             );
+            $this->_dispatchEvent();
         }
         $options = $this->_options;
         if ($withEmpty){
             array_unshift($options, array('label'=>'', 'value'=>''));
         }
         return $options;
+    }
+    /**
+     * getter for event name
+     * @access public
+     * @return mixed
+     * @author Marius Strajeru <marius.strajeru@gmail.com>
+     */
+    public function getEventName(){
+        return 'easylife_relations_get_options_relation';
     }
 }
