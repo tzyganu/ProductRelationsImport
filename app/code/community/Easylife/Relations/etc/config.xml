@@ -58,5 +58,14 @@
                 </easylife_relations>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Easylife_Relations>
+                    <files>
+                        <default>Easylife_Relations.csv</default>
+                    </files>
+                </Easylife_Relations>
+            </modules>
+        </translate>
     </adminhtml>
 </config>
